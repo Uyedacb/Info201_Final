@@ -1,0 +1,20 @@
+IRFAMIN3 - 6 & 7 = $50,000 or higher
+POVERTY3 - 1 = Living in Poverty
+adsmmdea - 1 = x>5 symptoms
+AD_MDEA9 - Recurrent thoughts of death or recurrent suicide ideation 1 = TRUE
+adrxnow - 1 = taking prescription medicine
+adtmtnow - 1 = currently recieving prof treatment
+NEWRACE2 - 1 = NonHisp White, 33250, 58.18
+2 = NonHisp Black/Afr Am, 7279, 12.74
+3 = NonHisp Native Am/AK Native, 894, 1.56
+4 = NonHisp Native HI/Other Pac Isl, 299, 0.52
+5 = NonHisp Asian, 2541, 4.45
+6 = NonHisp more than one race, 2216, 3.88
+7 = Hispanic, 10667, 18.67
+CATAG3 - 1 = 12-17 Years Old
+2 = 18-25 Years Old
+3 = 26-34 Years Old
+4 = 35-49 Years Old
+5 = 50 or Older
+
+adolescent = 12 - 17 yo
