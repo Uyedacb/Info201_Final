@@ -24,7 +24,7 @@ age_groups <- list(
   "26-34 Years Old" = 3,
   "35-49 Years Old" = 4,
   "50 or Older" = 5,
-  "18 or Older" = 6
+  "All Ages" = 6
 )
 dp_filter <- list(c("YO_MDEA9", "yodsmmde", "yorxnow", "yotmtnow"), c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"),
                   c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"), c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"),
