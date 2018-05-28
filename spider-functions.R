@@ -6,7 +6,7 @@
 # install.packages("rsconnect")
 
 library("dplyr")
-library("ggplot2")
+
 library("shiny")
 library("rsconnect")
 
@@ -16,7 +16,7 @@ ethnic_groups <- list(
   "Hispanic or Latino" = 7,
   "American Indian & Alaska Native" = 3, 
   "Asian" = 5, "Pacific Islander" = 4,
-  "More than one Ethnicity" = 6,
+  "Multi-ethnic" = 6,
   "All Ethnicities" = 0)
 age_groups <- list(
   "12-17 Years Old" = 1, 
@@ -24,8 +24,8 @@ age_groups <- list(
   "26-34 Years Old" = 3,
   "35-49 Years Old" = 4,
   "50 or Older" = 5,
-  "18 or Older" = 0
+  "18 or Older" = 6
 )
 dp_filter <- list(c("YO_MDEA9", "yodsmmde", "yorxnow", "yotmtnow"), c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"),
                   c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"), c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"),
-                  c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"))
+                  c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"), c("AD_MDEA9", "adsmmdea","adrxnow", "adtmtnow"))

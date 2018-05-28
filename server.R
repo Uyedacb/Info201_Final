@@ -1,78 +1,80 @@
-library(dplyr)
+library(plyr); library(dplyr)
 library(shiny)
 library(radarchart)
 library(rsconnect)
 source("spider-functions.R")
 
 q4_server <- function(input,output) {
-  # use subset to subset data yo
+  # reactive data frame for finding the max percent
+  # between both variables
   rv <- reactiveValues()
   rv$max_percent <- 0;
   
+  # grabs user input and outputs the respective data
+  # for variable one and two
   spider_data <- reactive({
-    age_one <- input$age_range_one
-    age_two <- input$age_range_two
-    ethnicity <- list(one = input$ethnicity_one, two = input$ethnicity_two)
-    if (input$age_range_one == 0) {
-      variable_one <- anti_subset_by_age(filtered_nsduh, 0, dp_filter[[2]], ethnicity$one)
-    } else {
-      variable_one <- subset(
-        filtered_nsduh, NEWRACE2 == ethnicity$one & CATAG3 == age_one,
-        select = c(dp_filter[[age_one]], "POVERTY3")
-      )
+    age_one <- as.numeric(input$age_range_one)
+    age_two <- as.numeric(input$age_range_two)
+    ethnicity_one <- as.numeric(input$ethnicity_one)
+    ethnicity_two <- as.numeric(input$ethnicity_two)
+    age_dp_one <- as.numeric(input$age_range_one)
+    age_dp_two <- as.numeric(input$age_range_two)
+    if (input$ethnicity_one == 0) {
+      ethnicity_one <- seq(1,6)
     }
-    if (input$age_range_two == 0) {
-      variable_two <- anti_subset_by_age(filtered_nsduh, 0, dp_filter[[2]], ethnicity$two)
-    } else {
-      variable_two <- subset(
-        filtered_nsduh, NEWRACE2 == ethnicity$two & CATAG3 == age_two,
-        select = c(dp_filter[[age_two]], "POVERTY3")
-      )
+    if (input$ethnicity_two == 0) {
+      ethnicity_two <- seq(1,6)
     }
-    variable_one <- percentage_filter(variable_one, health_filter$one)
-    variable_two <- percentage_filter(variable_two, health_filter$two)
-    rv$max_percent <- round(max(variable_one,variable_two))
-    return(list(variable_one,variable_two))
+    if (input$age_range_one == 6) {
+      age_one <- seq(2,5)
+    }
+    if (input$age_range_two == 6) {
+      age_two <- seq(2,5)
+    }
+    variable_one <- subset(
+      filtered_nsduh, NEWRACE2 %in% ethnicity_one & CATAG3 %in% age_one,
+      select = c(dp_filter[[age_dp_one]], "POVERTY3")
+    )
+    variable_two <- subset(
+      filtered_nsduh, NEWRACE2 %in% ethnicity_two & CATAG3 %in% age_two,
+      select = c(dp_filter[[age_dp_two]], "POVERTY3")
+    )
+    variable_one <- unname(percentage_filter(variable_one, 1))
+    variable_two <- unname(percentage_filter(variable_two, 1))
+    rv$max_percent <- max(variable_one, variable_two)
+    return(list(variable_one, variable_two))
   })
   
-  percentage_filter <- function(variable_data, variable_names) {
+  # grabs data and a variable to find the sum of within each respective column.
+  # returns a list of percentages over total observations for each respective column.
+  # (to two decimal places)
+  percentage_filter <- function(variable_data, variable_filter) {
     percentage_list <- list()
-    sum_data <- colSums(variable_data == 1, na.rm = TRUE)
-    percentage_list[c(variable_names, "POVERTY3")] <- round((sum_data / nrow(variable_data)) * 100, 2)
+    col_names <- colnames(variable_data)
+    sum_data <- colSums(variable_data == variable_filter, na.rm = TRUE)
+    percentage_list[col_names] <- round((sum_data / nrow(variable_data)) * 100, 2)
   }
   
-  anti_subset_by_age <- function(variable_data, age_num, extra_filter, ethnicity) {
-    if (ethnicity == 0) {
-      variable_data <- subset(
-        filtered_nsduh, CATAG3 != !!age_num,
-        select = c(extra_filter, "POVERTY3")
-      )
-    } else {
-      variable_data <- subset(
-        filtered_nsduh, NEWRACE2 == ethnicity & CATAG3 != !!age_num,
-        select = c(extra_filter, "POVERTY3")
-      )
-    }
-    return(variable_data)
-  }
+  # outputs radar chart to render in UI
   output$spiderplot <- renderChartJSRadar({
-    comparison_data <- spider_data()
-    data_one <- comparison_data[[1]]
-    data_two <- comparison_data[[2]]
-    df <- data.frame("label" = c(
+    data <- spider_data()
+    data_one <- data[[1]]
+    data_two <- data[[2]]
+    labs = c(
       "Plans of Suicide", "Depression",  "Taking Prescription Medicine", 
       "Recieving Professional Treatment", "Poverty Level"
-      ), "First Variable" = data_one, "Second Variable" = data_two)
+    )
+    df <- list("First Group" = data_one, "Second Group" = data_two)
     chartJSRadar(
-      scores = df, maxScale = round(rv$max_percent, -1), showToolTipLabel = TRUE,
-      labelSize = 12, main = "Comparing Two People Groups"
+      scores = df, labs = labs, maxScale = round_any(rv$max_percent, 5, f = ceiling), scaleStepWidth = 5,
+      showToolTipLabel = TRUE, labelSize = 12, main = "Comparing Two People Groups"
       ) 
   })
   
-  output$printTest <- renderText(
-    "placeholder"
-  )
+  # placeholder text, will put description of graph in here at the last stage of development
+  output$descript <- renderText({
+    paste(input$ethnicity_one, input$ethnicity_two, input$age_range_one, input$age_range_two, rv$max_percent)
+  })
 }
-
 
 shinyServer(q4_server)

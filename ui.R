@@ -15,7 +15,7 @@ my_ui <- fluidPage(
     ),
     mainPanel(
       chartJSRadarOutput("spiderplot"),
-      textOutput("printTest")
+      textOutput("descript")
     )
   )
 )
