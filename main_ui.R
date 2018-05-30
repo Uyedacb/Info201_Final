@@ -23,10 +23,10 @@ main_ui <- fluidPage(
                    tendencies.", choices = choices_q2)
       ),
       mainPanel(
-        p("This plot shows how suicidal tendencies relate to", textOutput('size_choice_q2', inline = T),
-          "over time. The size of the points is dependent on the number of cases which match the criteria
-        labeled on the axes. This helps demonstrate how those without suicial tendencies vary across
-        different variables from those who are suicidal."),
+        p("This plot shows how suicidal tendencies relate to", textOutput('key_q2', inline = T),
+          "over time. The size and fill of the points is dependent on the number of cases which match the criteria
+        labeled on the axes. This helps demonstrate how those without suicial tendencies differ across
+        different variables relative to those who are suicidal."),
         plotOutput("plot_suic_q2", click = 'plot_click_q2'),
         p("Number of Cases:", strong(textOutput('clicked_q2', inline = T)))
       )
