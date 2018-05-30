@@ -91,6 +91,82 @@ q4_server <- function(input,output) {
   output$descript <- renderText({
     paste(input$ethnicity_one, input$ethnicity_two, input$age_range_one, input$age_range_two, rv$max_percent)
   })
+  
+  ##### STEVE #####
+  val <- reactiveValues()
+  val$clicked <- ""
+  
+  output$size_choice <- renderText({
+    return(input$size_choice)
+  })
+  
+  output$size_choice2 <- renderText({
+    return(input$size_choice)
+  })
+  
+  filtered_suic <- reactive({
+    
+    data <- data %>% filter(suicthnk == 1| suicthnk == 2)
+    data[colnames(data)] <- lapply(data[colnames(data)], as.factor)
+    suicthnk_data <- data %>% group_by_("suicthnk", input$size_choice) %>% 
+      tally()
+    
+    return(suicthnk_data)
+    
+  })
+  
+  output$plot_suic <- renderPlot({
+    
+    if(input$size_choice == "IRFAMIN3") {
+      y_label = "Total Family Income"
+      y_ticks = c("<$10,000", "$10,000-$19,999", "$20,000-$29,999", "$30,000-$39,999", "$40,000-$49,999",
+                  "$50,000-$74,999", ">$75,000")
+    } else if (input$size_choice == "COUTYP2") {
+      y_label = "Home County Size"
+      y_ticks = c("Large Metro", "Small Metro", "Nonmetro")
+    } else if (input$size_choice == "irsex") {
+      y_label = "Gender"
+      y_ticks = c("Male", "Female")
+    } else if(input$size_choice == "IREDUHIGHST2") {
+      y_label = "Education Level"
+      y_ticks = c("Fifth Grade or less", "Sixth Grade", "Seventh Grade", "Eighth Grade", "Ninth Grade",
+                  "Tenth Grade", "Eleventh or Twelfth Grade (no diploma)", "High School Diploma",
+                  "Some college credit", "Associate's Degree", "College Graduate")
+    } else if(input$size_choice == "irwrkstat") {
+      y_label = "Work Status"
+      y_ticks = c("Employed Full Time","Employed Part Time", "Unemployed", 
+                  "Other (incl. not in work force)")
+    } else {
+      y_label = "Age"
+      y_ticks = c("12-17 Years Old", "18-25 Years Old", "26-34 Years Old", "35-49 Years Old",
+                  "50 or Older")
+    }
+    
+    p <- ggplot(filtered_suic(), aes_string("suicthnk", input$size_choice)) +
+      geom_point(aes(size = n, fill = n), shape = 21, color = "black") +
+      scale_size_area(max_size = 23) +
+      scale_fill_continuous() +
+      labs(
+        x = "Suicidal Tendencies",
+        y = y_label
+      ) +
+      scale_x_discrete(labels = c("Yes", "No")) +
+      scale_y_discrete(labels = y_ticks)
+    
+    return(p)
+  })
+  
+  observeEvent(input$plot_click, {
+    
+    clicked_suic <- nearPoints(filtered_suic(), input$plot_click)
+    
+    val$clicked <- unique(clicked_suic$n)
+    
+  })
+  
+  output$clicked <- renderText({
+    return(as.character(val$clicked))
+  })
 }
 
 shinyServer(q4_server)

@@ -6,7 +6,7 @@ library(tidyr)
 
 data <- read.csv("./Filtered2.csv", stringsAsFactors = F)
 
-ui <- fluidPage(
+ui1 <- fluidPage(
   titlePanel("Suicidal Tendencies by Variable"),
   sidebarLayout(
     sidebarPanel(
@@ -19,14 +19,15 @@ ui <- fluidPage(
     mainPanel(
       p("This plot shows how suicidal tendencies relate to", textOutput('size_choice', inline = T),
         "over time. The size of the points is dependent on the number of cases which match the criteria
-        labeled on the axes."),
+        labeled on the axes. This helps demonstrate how those without suicial tendencies vary across
+        different variables from those who are suicidal."),
       plotOutput("plot", click = 'plot_click'),
       p(textOutput('size_choice2', inline = T), ":", strong(textOutput('clicked', inline = T)))
     )
   )
 )
 
-server <- function(input, output, session) {
+server1 <- function(input, output, session) {
   
   val <- reactiveValues()
   val$clicked <- ""
@@ -93,4 +94,4 @@ server <- function(input, output, session) {
     })
 }
 
-shinyApp(ui, server)
+shinyApp(ui1, server1)
