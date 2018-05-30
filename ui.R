@@ -3,6 +3,10 @@ library(shiny)
 library(radarchart)
 source("spider-functions.R")
 
+choices_q2 = c("Total Family Income" = "IRFAMIN3", "County Size" = "COUTYP2", 
+               "Work Status" = "irwrkstat", "Age" = "CATAG3", "Education" = "IREDUHIGHST2", 
+               "Sex" = "irsex")
+
 my_ui <- fluidPage(
   sidebarLayout(
     # side bar containing variable selections
@@ -14,10 +18,7 @@ my_ui <- fluidPage(
       selectInput("ethnicity_two", "Choose an Ethnic background to look at", ethnic_groups),
       selectInput("age_range_two", "Choose an Age Group to look at:", age_groups),
       radioButtons('size_choice', label = "Choose a variable to plot against the reported suicidal 
-                   tendencies.", 
-                   choices = c("IRFAMIN3", "COUTYP2", "irwrkstat", "CATAG3", "IREDUHIGHST2", 
-                               "irsex")
-      )
+                   tendencies.", choices = choices_q2)
     ),
     # outputs spider plot and plot description
     mainPanel(
@@ -28,7 +29,7 @@ my_ui <- fluidPage(
         labeled on the axes. This helps demonstrate how those without suicial tendencies vary across
         different variables from those who are suicidal."),
       plotOutput("plot_suic", click = 'plot_click'),
-      p(textOutput('size_choice2', inline = T), ":", strong(textOutput('clicked', inline = T)))
+      p("Number of Cases:", strong(textOutput('clicked', inline = T)))
     )
   )
 )

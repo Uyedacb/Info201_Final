@@ -3,6 +3,9 @@ library(shiny)
 library(radarchart)
 library(rsconnect)
 source("spider-functions.R")
+library(ggplot2)
+
+data_q2 <- read.csv("./Filtered2.csv")
 
 q4_server <- function(input,output) {
   
@@ -106,9 +109,9 @@ q4_server <- function(input,output) {
   
   filtered_suic <- reactive({
     
-    data <- data %>% filter(suicthnk == 1| suicthnk == 2)
-    data[colnames(data)] <- lapply(data[colnames(data)], as.factor)
-    suicthnk_data <- data %>% group_by_("suicthnk", input$size_choice) %>% 
+    data_q2 <- data_q2 %>% filter(suicthnk == 1| suicthnk == 2)
+    data_q2[colnames(data_q2)] <- lapply(data_q2[colnames(data_q2)], as.factor)
+    suicthnk_data <- data_q2 %>% group_by_("suicthnk", input$size_choice) %>% 
       tally()
     
     return(suicthnk_data)
