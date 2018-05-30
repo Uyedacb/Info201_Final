@@ -12,6 +12,7 @@ choices_q2 = c("Total Family Income" = "IRFAMIN3", "County Size" = "COUTYP2",
 
 library(plotly)
 main_ui <- fluidPage(
+  
   tabsetPanel(
     tabPanel(
       "Q1",

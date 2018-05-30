@@ -102,6 +102,9 @@ main_server <- function(input, output) {
   # sets the clicked_q2 reactive value to a "" default
   val_q2$clicked_q2 <- ""
   
+  # sets the key for the size_choice_q2 value to "" default
+  val_q2$key_q2 <- ""
+  
   # sets the size_choice_q2 variable to the size_choice_q2 input variable for rendering text output
   output$size_choice_q2 <- renderText({
     return(input$size_choice_q2)
@@ -131,18 +134,18 @@ main_server <- function(input, output) {
       y_label_q2 = "Total Family Income"
       y_ticks_q2 = c("<$10,000", "$10,000-$19,999", "$20,000-$29,999", "$30,000-$39,999", "$40,000-$49,999",
                   "$50,000-$74,999", ">$75,000")
-    } else if (input$size_choice == "COUTYP2") {
+    } else if (input$size_choice_q2 == "COUTYP2") {
       y_label_q2 = "Home County Size"
       y_ticks_q2 = c("Large Metro", "Small Metro", "Nonmetro")
-    } else if (input$size_choice == "irsex") {
-      y_label_q2 = "Gender"
+    } else if (input$size_choice_q2 == "irsex") {
+      y_label_q2 = "Sex"
       y_ticks_q2 = c("Male", "Female")
-    } else if(input$size_choice == "IREDUHIGHST2") {
+    } else if(input$size_choice_q2 == "IREDUHIGHST2") {
       y_label_q2 = "Education Level"
       y_ticks_q2 = c("Fifth Grade or less", "Sixth Grade", "Seventh Grade", "Eighth Grade", "Ninth Grade",
                   "Tenth Grade", "Eleventh or Twelfth Grade (no diploma)", "High School Diploma",
                   "Some college credit", "Associate's Degree", "College Graduate")
-    } else if(input$size_choice == "irwrkstat") {
+    } else if(input$size_choice_q2 == "irwrkstat") {
       y_label_q2 = "Work Status"
       y_ticks_q2 = c("Employed Full Time","Employed Part Time", "Unemployed", 
                   "Other (incl. not in work force)")
@@ -152,13 +155,18 @@ main_server <- function(input, output) {
                   "50 or Older")
     }
     
+    val_q2$key_q2 <- y_label_q2
+    
     p_q2 <- ggplot(filtered_suic_q2(), aes_string("suicthnk", input$size_choice_q2)) +
       geom_point(aes(size = n, fill = n), shape = 21, color = "black") +
       scale_size_area(max_size = 23) +
       scale_fill_continuous() +
       labs(
         x = "Suicidal Tendencies",
-        y = y_label_q2
+        y = y_label_q2,
+        size = "Number of Cases",
+        fill = "",
+        title = paste("Suicidal Tendencies versus", val_q2$key_q2)
       ) +
       scale_x_discrete(labels = c("Yes", "No")) +
       scale_y_discrete(labels = y_ticks_q2)
@@ -178,6 +186,11 @@ main_server <- function(input, output) {
   # renders the number of cases value for the when-clicked output
   output$clicked_q2 <- renderText({
     return(as.character(val_q2$clicked_q2))
+  })
+  
+  # renders the key for the size_choice_q2 variable
+  output$key_q2 <- renderText({
+    return(val_q2$key_q2)
   })
 }
 
