@@ -7,7 +7,7 @@ q1_health_data$X_STATE <- tolower(q1_health_data$X_STATE)
 
 q1_state_data <- map_data('state')
 
-q1_make_map <- function(days, depression_dataset ){
+q1_make_map <- function(days, depression_dataset){
   
   mental_health_data <- q1_health_data %>% 
     select(X_STATE, MENTHLTH)
@@ -15,7 +15,7 @@ q1_make_map <- function(days, depression_dataset ){
     group_by(X_STATE) %>% 
     tally()
   last30_data <- mental_health_data %>% 
-    filter(MENTHLTH <= 30) %>%
+    filter(MENTHLTH <= days) %>%
     group_by(X_STATE) %>% 
     tally()
   
@@ -58,6 +58,6 @@ q1_make_map <- function(days, depression_dataset ){
   }
   gg
 }
-q1_make_map(30, T)
-
+#q1_make_map(30,F)
+#q1_make_map(1,F)
 
