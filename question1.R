@@ -2,12 +2,12 @@ library(dplyr)
 library(shiny)
 library(ggplot2)
 
-health_data <- read.csv('./stripped_data.csv', stringsAsFactors = F)
-health_data$X_STATE <- tolower(health_data$X_STATE)
+q1_health_data <- read.csv('./stripped_data.csv', stringsAsFactors = F)
+q1_health_data$X_STATE <- tolower(health_data$X_STATE)
 
-state_data <- map_data('state')
+q1_state_data <- map_data('state')
 
-make_map <- function(){
+q1_make_map <- function(days, depression_dataset ){
   
   mental_health_data <- health_data %>% 
     select(X_STATE, MENTHLTH)
@@ -15,7 +15,7 @@ make_map <- function(){
     group_by(X_STATE) %>% 
     summarise(num_entries = n())
   last30_data <- mental_health_data %>% 
-    filter(MENTHLTH <= 30) %>%
+    filter(MENTHLTH <= days) %>%
     group_by(X_STATE) %>% 
     summarise(num_last30 = n())
   
@@ -44,14 +44,18 @@ make_map <- function(){
   gg <- gg + geom_map(data=state_data, map=state_data,
                       aes(x=long, y=lat, map_id=region),
                       fill="#ffffff", color="#ffffff", size=0.15)
+  if(depression_dataset){
   gg <- gg + geom_map(data=summarized_data, map=state_data,
                       aes(fill=pct_depressed, map_id=region),
                       color="#ffffff", size=0.15)
+  }
+  else{
+    gg <- gg + geom_map(data=summarized_data, map=state_data,
+                        aes(fill=pct_depressed, map_id=region),
+                        color="#ffffff", size=0.15)
+  }
   gg
 }
-make_map()
+q1_make_map(30, T)
 
-application_server <- function(input, output){
-  variables <- reactiveValues()
-  
-}
+
