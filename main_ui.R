@@ -47,7 +47,27 @@ main_ui <- fluidPage(
       )
     ),
     tabPanel(
-      "Q3"
+      "Q3",
+      h5("Frequencies"),
+      h6("Had thoughts, planned, or attempted suicide in the past 12 months."),
+      sidebarLayout( # Create layout with 2 panels
+        sidebarPanel( # Specify content for sidebar panel
+          # Create widget
+          selectInput("select_gender", "Select a Gender:",
+                      c(list("Both" = "Both Genders"),
+                        "Male" = "Male",
+                        "Female" = "Female"))
+        ),
+        mainPanel( # Specify content for main panel
+          tabsetPanel(type = "tabs",
+                      tabPanel("Visual", plotOutput("q3_plot"),
+                               verbatimTextOutput("description_1_q3")),
+                      tabPanel("Table", tableOutput("q3_table")),
+                      tabPanel("Pie Chart", plotOutput("q3_pie"),
+                               verbatimTextOutput("description_2_q3"))
+          )
+        )
+      )
     ),
     tabPanel(
       "Q4",
