@@ -7,6 +7,7 @@ library(ggplot2)
 source("spider-functions.R")
 source("question1.R")
 data_q2 <- read.csv("Filtered2.csv")
+source("Analysis.R")
 
 main_server <- function(input, output) {
   ##Q1##

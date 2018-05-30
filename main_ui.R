@@ -5,6 +5,7 @@ library(dplyr)
 library(radarchart)
 library(ggplot2)
 source("spider-functions.R")
+source("Analysis.R")
 
 choices_q2 = c("Total Family Income" = "IRFAMIN3", "County Size" = "COUTYP2", 
                "Work Status" = "irwrkstat", "Age" = "CATAG3", "Education" = "IREDUHIGHST2", 
