@@ -164,8 +164,8 @@ main_server <- function(input, output) {
       labs(
         x = "Suicidal Tendencies",
         y = y_label_q2,
-        size = "",
-        fill = NA,
+        size = "Number of Cases",
+        fill = "",
         title = paste("Suicidal Tendencies versus", val_q2$key_q2)
       ) +
       scale_x_discrete(labels = c("Yes", "No")) +
