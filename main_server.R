@@ -130,18 +130,18 @@ main_server <- function(input, output) {
       y_label_q2 = "Total Family Income"
       y_ticks_q2 = c("<$10,000", "$10,000-$19,999", "$20,000-$29,999", "$30,000-$39,999", "$40,000-$49,999",
                   "$50,000-$74,999", ">$75,000")
-    } else if (input$size_choice == "COUTYP2") {
+    } else if (input$size_choice_q2 == "COUTYP2") {
       y_label_q2 = "Home County Size"
       y_ticks_q2 = c("Large Metro", "Small Metro", "Nonmetro")
-    } else if (input$size_choice == "irsex") {
+    } else if (input$size_choice_q2 == "irsex") {
       y_label_q2 = "Gender"
       y_ticks_q2 = c("Male", "Female")
-    } else if(input$size_choice == "IREDUHIGHST2") {
+    } else if(input$size_choice_q2 == "IREDUHIGHST2") {
       y_label_q2 = "Education Level"
       y_ticks_q2 = c("Fifth Grade or less", "Sixth Grade", "Seventh Grade", "Eighth Grade", "Ninth Grade",
                   "Tenth Grade", "Eleventh or Twelfth Grade (no diploma)", "High School Diploma",
                   "Some college credit", "Associate's Degree", "College Graduate")
-    } else if(input$size_choice == "irwrkstat") {
+    } else if(input$size_choice_q2 == "irwrkstat") {
       y_label_q2 = "Work Status"
       y_ticks_q2 = c("Employed Full Time","Employed Part Time", "Unemployed", 
                   "Other (incl. not in work force)")
