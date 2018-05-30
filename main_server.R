@@ -2,9 +2,10 @@ library(plyr); library(dplyr)
 library(shiny)
 library(radarchart)
 library(rsconnect)
+library(ggplot2)
 source("spider-functions.R")
 
-data_q2 <- read.csv("./Filtered2.csv")
+data_q2 <- read.csv("Filtered2.csv")
 
 main_server <- function(input, output) {
   # reactive data frame for finding the max percent

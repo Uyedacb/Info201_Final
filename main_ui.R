@@ -3,6 +3,7 @@ library(shiny)
 library(rsconnect)
 library(dplyr)
 library(radarchart)
+library(ggplot2)
 source("spider-functions.R")
 
 choices_q2 = c("Total Family Income" = "IRFAMIN3", "County Size" = "COUTYP2", 
