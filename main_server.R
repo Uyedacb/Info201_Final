@@ -138,7 +138,7 @@ main_server <- function(input, output) {
       y_label_q2 = "Home County Size"
       y_ticks_q2 = c("Large Metro", "Small Metro", "Nonmetro")
     } else if (input$size_choice_q2 == "irsex") {
-      y_label_q2 = "Gender"
+      y_label_q2 = "Sex"
       y_ticks_q2 = c("Male", "Female")
     } else if(input$size_choice_q2 == "IREDUHIGHST2") {
       y_label_q2 = "Education Level"
