@@ -21,7 +21,8 @@ my_ui <- fluidPage(
     mainPanel( # Specify content for main panel
       tabsetPanel(type = "tabs",
                   tabPanel("Visual", plotOutput("q3_plot")),
-                  tabPanel("Table", tableOutput("q3_table"))
+                  tabPanel("Table", tableOutput("q3_table")),
+                  tabPanel("Pie Chart", plotOutput("q3_pie"))
     )
   )
   )
@@ -63,6 +64,23 @@ q3_server <- function(input, output) {
   })
   output$q3_table <- renderTable(
     reactive_table()
+  )
+  reactive_pie <- reactive({
+    if (input$select_gender != "Male" | input$select_gender != "Female") {
+      filtered_pie_all <- ggplot(behaviors_frequencies, aes(x = factor(1), fill = factor(Behavior))) +
+        geom_bar(width = 1)
+      filtered_pie <- filtered_pie_all + coord_polar(theta = "y")
+    }
+    if (input$select_gender == "Male" | input$select_gender == "Female") {
+      filtered_beh_freq <- filter(behaviors_frequencies, Gender == input$select_gender)
+      filtered_pie_freq <- ggplot(filtered_beh_freq, aes(x = factor(1), fill = factor(Behavior))) +
+        geom_bar(width = 1)
+      filtered_pie <- filtered_pie_freq + coord_polar(theta = "y")
+    }
+    return(filtered_pie)
+  })
+  output$q3_pie <- renderPlot(
+    reactive_pie()
   )
 }
 
