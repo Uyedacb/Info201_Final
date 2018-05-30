@@ -1,10 +1,11 @@
-library(plyr); library(dplyr)
+library(plyr);
+library(dplyr)
 library(shiny)
 library(radarchart)
 library(rsconnect)
 library(ggplot2)
 source("spider-functions.R")
-
+source("question1.R")
 data_q2 <- read.csv("Filtered2.csv")
 
 main_server <- function(input, output) {
@@ -13,7 +14,6 @@ main_server <- function(input, output) {
   observe({q1_rv$radio <- input$q1_radio})
   observe({q1_rv$slider <- input$q1_slider})
   output$q1_plot <- q1_make_map(q1_rv$slider, (q1_rv$radio == 'Diagnosed Depression'))
-  
   
   ##End Q1##
   

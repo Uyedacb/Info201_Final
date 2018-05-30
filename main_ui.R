@@ -23,7 +23,7 @@ main_ui <- fluidPage(
                        c('Last 30 days','Diagnosed Depression')),
           sliderInput('q1_slider',
                       "How many days have been affected by mental health",
-                      1, 30)
+                      1, 30, 30)
           
         ),
         mainPanel(
