@@ -20,7 +20,7 @@ main_ui <- fluidPage(
         sidebarPanel(
           radioButtons('q1_radio', "Select data for last
                        30 days or diagonsed depression",
-                       c('Last 30 days',' Diagnosed Depression')),
+                       c('Last 30 days','Diagnosed Depression')),
           sliderInput('q1_slider',
                       "How many days have been affected by mental health",
                       1, 30)
