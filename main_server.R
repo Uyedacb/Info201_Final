@@ -13,7 +13,7 @@ main_server <- function(input, output) {
   q1_rv <- reactiveValues()
   observe({q1_rv$radio <- input$q1_radio})
   observe({q1_rv$slider <- input$q1_slider})
-  output$q1_plot <- q1_make_map(q1_rv$slider, (q1_rv$radio == 'Diagnosed Depression'))
+  output$q1_plot <- renderPlot(q1_make_map(q1_rv$slider, (q1_rv$radio == 'Diagnosed Depression')))
   
   ##End Q1##
   
