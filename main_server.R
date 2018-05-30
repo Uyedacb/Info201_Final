@@ -169,7 +169,8 @@ main_server <- function(input, output) {
         title = paste("Suicidal Tendencies versus", val_q2$key_q2)
       ) +
       scale_x_discrete(labels = c("Yes", "No")) +
-      scale_y_discrete(labels = y_ticks_q2)
+      scale_y_discrete(labels = y_ticks_q2) +
+      theme(text = element_text(size = 15))
     
     return(p_q2)
   })
