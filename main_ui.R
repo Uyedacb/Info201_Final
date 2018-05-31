@@ -62,10 +62,10 @@ main_ui <- fluidPage(
         mainPanel( # Specify content for main panel
           tabsetPanel(type = "tabs",
                       tabPanel("Visual", plotOutput("q3_plot"),
-                               verbatimTextOutput("description_1_q3")),
+                               textOutput("description_1_q3")),
                       tabPanel("Table", tableOutput("q3_table")),
                       tabPanel("Pie Chart", plotOutput("q3_pie"),
-                               verbatimTextOutput("description_2_q3"))
+                               textOutput("description_2_q3"))
           )
         )
       )

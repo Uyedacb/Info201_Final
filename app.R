@@ -77,9 +77,9 @@ q3_server <- function(input, output) {
     }
     if (input$select_gender == "Male" | input$select_gender == "Female") {
       q3_filtered_beh_freq <- filter(behaviors_frequencies_q3, Gender == input$select_gender)
-      filtered_pie_freq <- ggplot(q3_filtered_beh_freq, aes(x = factor(1), fill = factor(Behavior))) +
+      q3_filtered_pie_freq <- ggplot(q3_filtered_beh_freq, aes(x = factor(1), fill = factor(Behavior))) +
         geom_bar(width = 1)
-      filtered_pie_q3 <- filtered_pie_freq + coord_polar(theta = "y") +
+      filtered_pie_q3 <- q3_filtered_pie_freq + coord_polar(theta = "y") +
         ggtitle("Frequencies of Behaviors in the Past 12 Months") +
         labs(x = "Behavior", y = "Number of People")
     }
