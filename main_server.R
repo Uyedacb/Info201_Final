@@ -273,7 +273,7 @@ main_server <- function(input, output) {
     paste("This pie chart shows the proportions of behaviors for ", input$select_gender, ".",
            " This information is consistent with the bar chart and table. ",
            "There were a total of ", total_responses_q3, " responses and each responder were able to select more than one choice.",
-           "There were a total of ", total_males_q3, " males and a total of", total_females_q3, ".", "females.",
+           "There were a total of ", total_males_q3, " males and a total of", total_females_q3, "females.",
            "This chart allows us to see that at least two-thirds of both males and females have seriously thought of suicide.",
            "The responses for females are less disproportioned than males, given that nearly one-fourth of females have planned suicide.")
   })
