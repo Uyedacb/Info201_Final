@@ -13,7 +13,7 @@ q1_census_data <- read.csv('./census.csv', stringsAsFactors = F)
 q1_state_data <- map_data('state')
 
 q1_make_map <- function(days, depression_dataset){
-  
+  #data manipulation
   mental_health_data <- q1_health_data %>% 
     select(X_STATE, MENTHLTH)
   total_mental_data <- mental_health_data %>%
@@ -57,24 +57,6 @@ q1_make_map <- function(days, depression_dataset){
            ppl_depressed = round(pct_depressed / 100 * X2018.Population),
            ppl_recent = round(pct_recent / 100 * X2018.Population))
   
-  
-  
-  #gg <- ggplot()
-  #gg <- gg + geom_map(data=q1_state_data, map=q1_state_data,
-  #                    aes(x=long, y=lat, map_id=region),
-  #                    fill="#ffffff", color="#ffffff", size=0.15)
-  #if(depression_dataset){
-  #  gg <- gg + geom_map(data=summarized_data, map=q1_state_data,
-  #                      aes(fill=pct_depressed, map_id=region),
-  #                      color="#ffffff", size=0.15)
-  #}
-  #else{
-  #  gg <- gg + geom_map(data=summarized_data, map=q1_state_data,
-  #                      aes(fill=pct_recent, map_id=region),
-  #                      color="#ffffff", size=0.15)
-  #}
-  #gg
-  
   # specify some map projection/options
   geo_opts <- list(
     scope = 'usa',
@@ -84,7 +66,7 @@ q1_make_map <- function(days, depression_dataset){
   )
   
  
-  
+  #make the map
   if (depression_dataset){
     summarized_data <- summarized_data %>%
       mutate(hover = paste0('Percent reported depressed: ',
@@ -112,7 +94,7 @@ q1_make_map <- function(days, depression_dataset){
     ) %>% colorbar(title = "Percentage<br>reported",
                    limits = c(0,40))
   }
-
+  #put a title on it
   p <- p %>%
     layout(
       title = '2016 Depression statistics<br>(Hover for breakdown)',
@@ -121,7 +103,4 @@ q1_make_map <- function(days, depression_dataset){
     
   p
 }
-#q1_make_map(30,F)
-#q1_make_map(1,F)
-#q1_make_map(1,T)
 
