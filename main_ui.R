@@ -17,7 +17,7 @@ main_ui <- fluidPage(titlePanel("Exploring Depression and Suicide in the United 
   
   tabsetPanel(
     tabPanel(
-      "Q1",
+      "Density of Depression and Poor Mental Health",
       sidebarLayout(
         sidebarPanel(
           radioButtons('q1_radio', "Select data for last
