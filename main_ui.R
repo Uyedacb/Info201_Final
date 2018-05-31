@@ -68,7 +68,7 @@ main_ui <- fluidPage(titlePanel("Exploring Depression and Suicide in the United 
       )
     ),
     tabPanel(
-      "Q3",
+      "Frequencies of Suicidal Tendencies",
       h5("Frequencies"),
       h6("Had thoughts, planned, or attempted suicide in the past 12 months."),
       sidebarLayout( # Create layout with 2 panels
