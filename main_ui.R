@@ -4,6 +4,7 @@ library(rsconnect)
 library(dplyr)
 library(radarchart)
 library(ggplot2)
+library(plotly)
 source("spider-functions.R")
 source("Analysis.R")
 
@@ -28,7 +29,7 @@ main_ui <- fluidPage(
           
         ),
         mainPanel(
-          plotOutput('q1_plot')
+          plotlyOutput('q1_plot')
         )
       )
     ),

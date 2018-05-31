@@ -1,9 +1,14 @@
 library(dplyr)
 library(shiny)
 library(ggplot2)
+library(plotly)
+#library(maps)
+library(tools)
+#library(countrycode)
+#install.packages("countrycode")
 
 q1_health_data <- read.csv('./stripped_data.csv', stringsAsFactors = F)
-q1_health_data$X_STATE <- tolower(q1_health_data$X_STATE)
+
 
 q1_state_data <- map_data('state')
 
@@ -37,27 +42,61 @@ q1_make_map <- function(days, depression_dataset){
   summarized_data <- summarized_data %>%
     mutate(pct_depressed = depressed / total * 100,
            pct_recent = recent / total * 100,
-           region = X_STATE)
+           region = X_STATE,
+           code = state.abb[match(region, state.name)])
   
   
   
+  #gg <- ggplot()
+  #gg <- gg + geom_map(data=q1_state_data, map=q1_state_data,
+  #                    aes(x=long, y=lat, map_id=region),
+  #                    fill="#ffffff", color="#ffffff", size=0.15)
+  #if(depression_dataset){
+  #  gg <- gg + geom_map(data=summarized_data, map=q1_state_data,
+  #                      aes(fill=pct_depressed, map_id=region),
+  #                      color="#ffffff", size=0.15)
+  #}
+  #else{
+  #  gg <- gg + geom_map(data=summarized_data, map=q1_state_data,
+  #                      aes(fill=pct_recent, map_id=region),
+  #                      color="#ffffff", size=0.15)
+  #}
+  #gg
   
-  gg <- ggplot()
-  gg <- gg + geom_map(data=q1_state_data, map=q1_state_data,
-                      aes(x=long, y=lat, map_id=region),
-                      fill="#ffffff", color="#ffffff", size=0.15)
-  if(depression_dataset){
-    gg <- gg + geom_map(data=summarized_data, map=q1_state_data,
-                        aes(fill=pct_depressed, map_id=region),
-                        color="#ffffff", size=0.15)
+  # specify some map projection/options
+  geo_opts <- list(
+    scope = 'usa',
+    projection = list(type = 'albers usa'),
+    showlakes = F,
+    lakecolor = toRGB('white')
+  )
+  
+  p <- plot_geo(summarized_data, locationmode = 'USA-states')
+  
+  if (depression_dataset){
+    p <- p %>% add_trace(
+      z = ~pct_depressed, locations = ~code,
+      color = ~pct_depressed, colors = 'Purples'
+    ) %>% colorbar(title = "Percentage reported",
+                   limits = c(0,25))
   }
   else{
-    gg <- gg + geom_map(data=summarized_data, map=q1_state_data,
-                        aes(fill=pct_recent, map_id=region),
-                        color="#ffffff", size=0.15)
+    p <- p %>% add_trace(
+      z = ~pct_recent, locations = ~code,
+      color = ~pct_recent, colors = 'Purples'
+    ) %>% colorbar(title = "Percentage reported",
+                   limits = c(0,40))
   }
-  gg
+
+  p <- p %>%
+    layout(
+      title = '2016 Depression statistics<br>(Hover for breakdown)',
+      geo = geo_opts
+    )
+    
+  p
 }
 #q1_make_map(30,F)
 #q1_make_map(1,F)
+#q1_make_map(1,T)
 
