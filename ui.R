@@ -18,6 +18,34 @@ main_ui <- fluidPage(titlePanel("Exploring Depression and Suicide in the United 
   
   tabsetPanel(
     tabPanel(
+      "Introduction",
+      mainPanel(
+        h2("Introduction"),
+        p("This project looks to ask the question, what are the biggest contributors to depression and 
+          how are they correlated to the frequency of suicidal tendencies? 
+          We attempt to answer this question by analyzing the data taken from the National Survey on Drug Use and Health in 2015 
+          and the CDC's Behavioral Risk Factor Surveillance System datset. 
+          Our application represents this data through different visualizations that hope to engage users in our overall question.
+          Each visualization hopes to engage the user in related questions and analysis to our overall theme."),
+        HTML({
+          paste("<ul><strong>Density of Depression and Poor Mental Health</strong>",
+                "<li>This is a choropleth map that looks at the density of depression and poor mental health 
+                in the United States. We hope to give users an idea of the overall layout of mental health in
+                the country.</li>",
+                "<strong>Density of Depression and Poor Mental Health</strong>",
+                "<li>This is a balloon chart that represents the distribution of suicidal tendency
+                 by a variable demographic factor.</li>",
+                "<strong>Frequencies of Suicidal Tendencies</strong>",
+                "<li>This tab contains three different visualizations that show the user the different
+                frequencies of suicidal tendencies by gender.</li>",
+                "<strong>Mental Health Comparison between Different Types of People</strong>",
+                "<li>This a radarchart that allows users to compare two different types of people,
+                variable by age and ethnicity.</li>"
+          )
+        })
+      )
+    ),
+    tabPanel(
       "Density of Depression and Poor Mental Health",
       sidebarLayout(
         sidebarPanel(
