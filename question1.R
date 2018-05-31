@@ -8,7 +8,7 @@ library(tools)
 #install.packages("countrycode")
 
 q1_health_data <- read.csv('./stripped_data.csv', stringsAsFactors = F)
-
+q1_census_data <- read.csv('./census.csv', stringsAsFactors = F)
 
 q1_state_data <- map_data('state')
 
@@ -39,11 +39,23 @@ q1_make_map <- function(days, depression_dataset){
                                depressed_data,
                                by= "X_STATE")
   summarized_data <- summarized_data %>% mutate(depressed = n)
+  summarized_data <- summarized_data %>% select(X_STATE, total, recent, depressed)
+  
+  q1_census_data <- q1_census_data %>% mutate(X_STATE = State)
+  q1_census_data <- q1_census_data %>% select(X_STATE, X2018.Population)
+  
+  
+  summarized_data <-left_join(summarized_data,
+                            q1_census_data,
+                            by= "X_STATE")
+  
   summarized_data <- summarized_data %>%
     mutate(pct_depressed = depressed / total * 100,
            pct_recent = recent / total * 100,
            region = X_STATE,
-           code = state.abb[match(region, state.name)])
+           code = state.abb[match(region, state.name)],
+           ppl_depressed = round(pct_depressed / 100 * X2018.Population),
+           ppl_recent = round(pct_recent / 100 * X2018.Population))
   
   
   
@@ -71,20 +83,33 @@ q1_make_map <- function(days, depression_dataset){
     lakecolor = toRGB('white')
   )
   
-  p <- plot_geo(summarized_data, locationmode = 'USA-states')
+ 
   
   if (depression_dataset){
+    summarized_data <- summarized_data %>%
+      mutate(hover = paste0('Percent reported depressed: ',
+                            as.character(round(pct_depressed)),
+                            '%<br>Estimated people diagnosed: ',
+                            as.character(ppl_depressed)))
+    p <- plot_geo(summarized_data, locationmode = 'USA-states')
     p <- p %>% add_trace(
-      z = ~pct_depressed, locations = ~code,
+      z = ~pct_depressed, text = ~hover, locations = ~code,
       color = ~pct_depressed, colors = 'Purples'
-    ) %>% colorbar(title = "Percentage reported",
+    ) %>% colorbar(title = "Percentage<br>reported",
                    limits = c(0,25))
   }
   else{
+    summarized_data <- summarized_data %>%
+      mutate(hover = paste0('Percent reported poor mental health: ',
+                            as.character(round(pct_recent)),
+                            '%<br>Estimated people affected: ',
+                            as.character(ppl_depressed)))
+    
+    p <- plot_geo(summarized_data, locationmode = 'USA-states')
     p <- p %>% add_trace(
-      z = ~pct_recent, locations = ~code,
+      z = ~pct_recent, text = ~hover, locations = ~code,
       color = ~pct_recent, colors = 'Purples'
-    ) %>% colorbar(title = "Percentage reported",
+    ) %>% colorbar(title = "Percentage<br>reported",
                    limits = c(0,40))
   }
 
