@@ -91,7 +91,7 @@ main_ui <- fluidPage(titlePanel("Exploring Depression and Suicide in the United 
       )
     ),
     tabPanel(
-      "Q4",
+      "Mental Health Comparison between Different Types of People",
       sidebarLayout(
         # side bar containing variable selections
         sidebarPanel(
