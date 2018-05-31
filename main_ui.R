@@ -29,7 +29,26 @@ main_ui <- fluidPage(
           
         ),
         mainPanel(
-          plotlyOutput('q1_plot')
+          p(''),
+          plotlyOutput('q1_plot'),
+          p('This map shows the relative densities of people who
+            reported that they have been diagnosed with depression
+            or the relative densities of people who have reported
+            that 1 to 30 of the past 30 days have been affected by 
+            poor mental health. The data was collected by randomly
+            calling people in the United states, and with 486303 observations,
+            we believe that this study has a large enough sample set to 
+            deem it accurate. The data was sourced from the 
+            Behavioral Risk Factor Surveillance System run by the CDC.
+             You can learn more about their work here: 
+            https://www.cdc.gov/brfss/annual_data/annual_data.htm 
+            '),
+          p('To use this map, first select the data set you would like 
+            to analyze with the radio button selector (Either "Last 30 days",
+            or "Diagnosed Depression". If you chose "Last 30 days" then the slider
+            will manipulate the map in such a way that we are only considering people
+            who have reported that number of days or less 
+            have been affected by mental health')
         )
       )
     ),
