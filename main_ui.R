@@ -13,11 +13,11 @@ choices_q2 = c("Total Family Income" = "IRFAMIN3", "County Size" = "COUTYP2",
                "Sex" = "irsex")
 
 library(plotly)
-main_ui <- fluidPage(
+main_ui <- fluidPage(titlePanel("Exploring Depression and Suicide in the United States"),
   
   tabsetPanel(
     tabPanel(
-      "Density of Depression and Poor Mental Health",
+      "Q1",
       sidebarLayout(
         sidebarPanel(
           radioButtons('q1_radio', "Select data for last
@@ -29,6 +29,7 @@ main_ui <- fluidPage(
           
         ),
         mainPanel(
+          p(''),
           plotlyOutput('q1_plot'),
           p('This map shows the relative densities of people who
             reported that they have been diagnosed with depression
@@ -44,7 +45,7 @@ main_ui <- fluidPage(
             '),
           p('To use this map, first select the data set you would like 
             to analyze with the radio button selector (Either "Last 30 days",
-            or "Diagnosed Depression"). If you chose "Last 30 days" then the slider
+            or "Diagnosed Depression". If you chose "Last 30 days" then the slider
             will manipulate the map in such a way that we are only considering people
             who have reported that number of days or less 
             have been affected by mental health')
